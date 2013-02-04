@@ -26,7 +26,7 @@ class NonUniqueSourceMulticastUDPPortUnreachableTestCase(ComplianceTestCase):
                 UDP(dport = 9000))
         
         self.logger.info("Checking for reply")
-        r1 = self.node(1).received(type=ICMPv6DestUnreach)
+        r1 = self.node(1).received(type=ICMPv6DestUnreach, dst=self.node(1).global_ip().solicited_node())
 
         assertEqual(0, len(r1), "did not expect to receive an ICMPv6 Destination Unreachable message")
 
@@ -55,7 +55,7 @@ class NonUniqueSourceMulticastEchoRequestTooBigTestCase(ComplianceTestCase):
                     ICMPv6EchoRequest(), 1500, True, False))
 
         self.logger.info("Checking for reply")
-        r1 = self.node(1).received(type=ICMPv6PacketTooBig)
+        r1 = self.node(1).received(type=ICMPv6PacketTooBig, dst=self.node(1).global_ip().solicited_node())
 
         assertEqual(0, len(r1), "did not expect to receive an ICMPv6 Packet Too Big message")
 
@@ -85,7 +85,7 @@ class NonUniqueSourceMulticastReassemblyTimeoutTestCase(ComplianceTestCase):
         self.ui.wait(55)
         
         self.logger.info("Checking for reply")
-        r1 = self.node(1).received(type=ICMPv6TimeExceeded)
+        r1 = self.node(1).received(type=ICMPv6TimeExceeded, dst=self.node(1).global_ip().solicited_node())
 
         assertEqual(0, len(r1), "did not expect to receive an ICMPv6 Time Exceeded message")
                 
@@ -113,6 +113,6 @@ class NonUniqueSourceMulticastInvalidDestinationOptionsTestCase(ComplianceTestCa
                         ICMPv6EchoRequest(seq=self.next_seq()), 1500, True, False))
 
         self.logger.info("Checking for reply")
-        r1 = self.node(1).received(type=ICMPv6ParamProblem)
+        r1 = self.node(1).received(type=ICMPv6ParamProblem, dst=self.node(1).global_ip().solicited_node())
         
         assertEqual(0, len(r1), "did not expect to receive an ICMPv6 Parameter Problem message")
