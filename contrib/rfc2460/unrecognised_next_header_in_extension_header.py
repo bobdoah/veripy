@@ -46,7 +46,7 @@ class UnrecognisedNextHeaderInExtensionHeaderTestCase(ComplianceTestCase):
 
 class UnexpectedNextHeaderInExtensionHeaderTestCase(ComplianceTestCase):
     """
-    Unrecognised Next Header In Extension Header
+    Unexpected Next Header In Extension Header
     
     Verify that a node discards a packet with an unrecognized or unexpected
     next header in an extension header and transmits an ICMPv6 Parameter

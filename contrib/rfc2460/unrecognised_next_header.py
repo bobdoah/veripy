@@ -59,7 +59,7 @@ class UnexpectedNextHeaderInIPv6HeaderTestCase(ComplianceTestCase):
         self.logger.info("Sending an IPv6 packet with an Next Header of 0, but with a fragment header.")
         self.node(1).send( \
             IPv6(src=str(self.node(1).global_ip()), dst=str(self.target(1).global_ip()), nh=0)/
-                IPv6ExtHdrFragment(nh=0, offset=0, m=0, id=135)/
+                IPv6ExtHdrFragment(nh=58, offset=0, m=0, id=135)/
                     ICMPv6EchoRequest())
         
         self.logger.info("Checking for a reply...")
