@@ -2,8 +2,33 @@ from scapy.all import *
 from veripy.assertions import *
 from veripy.models import ComplianceTestCase
 
+class FirstOptionHasMostSignificantBits00TestCase(ComplianceTestCase):
+    """
+    Option Processing Order - First Option has Most Significant Bits 00b.
+    
+    Common methods for the subsequent test classes. 
 
-class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits01TestCase(ComplianceTestCase):
+    """
+    def run(self):
+        raise NotImplementedError("Test sub-class should implement this method.")
+
+    @staticmethod
+    def zero_filled_destination_option(option_type, option_length):
+        return HBHOptUnknown(otype=option_type, optlen=option_length, optdata = (option_length * '\x00'))
+
+    def option_type_7(self):
+        return self.zero_filled_destination_option(option_type=7, option_length=4)
+
+    def option_type_71(self):
+        return self.zero_filled_destination_option(option_type=71, option_length=6)
+
+    def option_type_135(self):
+        return self.zero_filled_destination_option(option_type=135, option_length=6)
+
+    def option_type_199(self):
+        return self.zero_filled_destination_option(option_type=199, option_length=6)
+
+class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits01TestCase(FirstOptionHasMostSignificantBits00TestCase):
     """
     Option Processing Order - First Option has Most Significant Bits 00b,
     Next has Most Significant Bits 01b
@@ -18,13 +43,16 @@ class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits01TestCase(Co
     
     def run(self):
         self.logger.info("Sending an IPv6 packet header with a destination options header, with multiple options.")
+        data_byte = '\x00'
         self.node(1).send( \
             IPv6(src=str(self.node(1).global_ip()), dst=str(self.target(1).global_ip()), nh=60)/
-                IPv6ExtHdrDestOpt(nh=44,len=0,options=[HBHOptUnknown(otype=7,optlen=4),
-                    HBHOptUnknown(otype=71,optlen=6),
-                    HBHOptUnknown(otype=135,optlen=6),
-                    HBHOptUnknown(otype=199,optlen=6)])/
-                        ICMPv6EchoRequest(seq=self.next_seq()))
+                IPv6ExtHdrDestOpt(nh=44,len=0,options=[
+                    self.option_type_7(),
+                    self.option_type_71(),
+                    self.option_type_135(),
+                    self.option_type_199()
+                ])/
+                ICMPv6EchoRequest(seq=self.next_seq()))
                     
         self.logger.info("Checking for a reply...")
         r1 = self.node(1).received(src=self.target(1).global_ip(), seq=self.seq(), type=ICMPv6EchoReply)
@@ -32,7 +60,7 @@ class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits01TestCase(Co
         assertEqual(0, len(r1), "did not expect to receive a reply")
 
 
-class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits10TestCase(ComplianceTestCase):
+class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits10TestCase(FirstOptionHasMostSignificantBits00TestCase):
     """
     Option Processing Order - First Option has Most Significant Bits 00b,
     Next has Most Significant Bits 10b
@@ -49,11 +77,13 @@ class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits10TestCase(Co
         self.logger.info("Sending IPv6 packet header with a destination options header, with multiple options.")
         self.node(1).send( \
             IPv6(src=str(self.node(1).global_ip()), dst=str(self.target(1).global_ip()), nh=60)/
-                IPv6ExtHdrDestOpt(nh=58,len=3,options=[HBHOptUnknown(otype=7,optlen=4),
-                    HBHOptUnknown(otype=135,optlen=6),
-                    HBHOptUnknown(otype=199,optlen=6),
-                    HBHOptUnknown(otype=71,optlen=6)])/
-                        ICMPv6EchoRequest(seq=self.next_seq()))
+                IPv6ExtHdrDestOpt(nh=58,len=3,options=[
+                    self.option_type_7(),
+                    self.option_type_135(),
+                    self.option_type_199(),
+                    self.option_type_71(),
+                ])/
+                ICMPv6EchoRequest(seq=self.next_seq()))
                     
         self.logger.info("Checking for a reply...")
         r1 = self.node(1).received(src=self.target(1).global_ip(), type=ICMPv6ParamProblem)
@@ -63,7 +93,7 @@ class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits10TestCase(Co
         assertEqual(48, r1[0].getlayer(ICMPv6ParamProblem).ptr, "expected the Parameter Problem message to have a Pointer Field of 0x30")
 
 
-class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits11TestCase(ComplianceTestCase):
+class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits11TestCase(FirstOptionHasMostSignificantBits00TestCase):
     """
     Option Processing Order - First Option has Most Significant Bits 00b,
     Next has Most Significant Bits 11b
@@ -80,11 +110,13 @@ class FirstOptionHasMostSignificantBits00NextHasMostSignificantBits11TestCase(Co
         self.logger.info("Sending an IPv6 packet header with a destination options header, with multiple options.")
         self.node(1).send( \
             IPv6(src=str(self.node(1).global_ip()), dst=str(self.target(1).global_ip()), nh=60)/
-                IPv6ExtHdrDestOpt(nh=58,len=3,options=[HBHOptUnknown(otype=7,optlen=4),
-                    HBHOptUnknown(otype=199,optlen=6),
-                    HBHOptUnknown(otype=71,optlen=6),
-                    HBHOptUnknown(otype=135,optlen=6)])/
-                        ICMPv6EchoRequest(seq=self.next_seq()))
+                IPv6ExtHdrDestOpt(nh=58,len=3,options=[
+                    self.option_type_7(),
+                    self.option_type_199(),
+                    self.option_type_71(),
+                    self.option_type_135(),
+                ])/
+                ICMPv6EchoRequest(seq=self.next_seq()))
         
         self.logger.info("Checking for a reply...")
         r1 = self.node(1).received(src=self.target(1).global_ip(), type=ICMPv6ParamProblem)
