@@ -34,7 +34,9 @@ class PrefixInformationOptionProcessingTestCase(ComplianceTestCase):
 
         self.ui.wait(10)
         self.logger.info("Checking for Neighbor Solicitatons...")
-        r1 = self.router(1).received(iface=1, src=self.target(1).global_ip(), dst=self.router(1).global_ip(iface=1).solicited_node(), type=ICMPv6ND_NS)
+        r1 = self.router(1).received(iface=1, src=[self.target(1).link_local_ip(), self.target(1).global_ip()],
+            dst=self.router(1).global_ip(iface=1).solicited_node(), type=ICMPv6ND_NS
+        )
         
         assertEqual(3, len(r1), "expected to receive 3 Neighbor Solicitations")
 
@@ -57,7 +59,9 @@ class PrefixInformationOptionProcessingTestCase(ComplianceTestCase):
 
         self.ui.wait(10)
         self.logger.info("Checking for Neighbor Solicitatons...")
-        r2 = self.router(1).received(iface=1, src=self.target(1).global_ip(), dst=self.router(1).global_ip(iface=1).solicited_node(), type=ICMPv6ND_NS)
+        r2 = self.router(1).received(iface=1, src=[self.target(1).link_local_ip(), self.target(1).global_ip()],
+            dst=self.router(1).global_ip(iface=1).solicited_node(), type=ICMPv6ND_NS
+        )
         
         assertEqual(3, len(r2), "expected to receive 3 Neighbor Solicitations")
         
