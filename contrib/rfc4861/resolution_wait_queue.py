@@ -62,7 +62,7 @@ class ResolutionWaitQueueMultipleQueueTestCase(ComplianceTestCase):
                     Protocols (v6LC.2.1.2b)
     """
 
-    disable_nd = True
+    disabled_nd = True
     restart_uut = True
     
     def run(self):
