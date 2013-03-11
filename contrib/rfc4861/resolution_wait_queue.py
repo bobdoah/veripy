@@ -97,6 +97,7 @@ class ResolutionWaitQueueMultipleQueueTestCase(ComplianceTestCase):
                     ICMPv6ND_NA(R=0, S=1, O=1, tgt=str(self.node(1).link_local_ip()))/
                         ICMPv6NDOptDstLLAddr(lladdr=self.node(1).iface(0).ll_addr))
 
+        self.logger.info("Checking for Neighbor Solicitations for TR1..")
         r2 = self.router(1).received(iface=1, src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1).solicited_node(), type=ICMPv6ND_NS)
         assertGreaterThan(0, len(r2), "expected to receive an ICMPv6 Neighbor Solicitation for TR1")
 
