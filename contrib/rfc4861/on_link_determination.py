@@ -60,15 +60,26 @@ class OnLinkDeterminationGlobalAddressTestCase(ComplianceTestCase):
     Source:         IPv6 Ready Phase-1/Phase-2 Test Specification Core
                     Protocols (v6LC.2.1.1c)
     """
-
+    disabled_ra = True
+    disabled_nd = True
+    
     def run(self):
+        self.logger.info("Sending Router Advertisement")
+        self.router(1).send( 
+            IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst="ff02::1")/\
+                ICMPv6ND_RA(code=0)/
+                ICMPv6NDOptPrefixInfo(prefixlen=self.router(1).iface(1).global_ip().prefix_size, prefix=self.router(1).iface(1).global_ip().network()),
+            iface=1)
+                
         self.logger.info("Sending ICMP Echo Request, with UUT's global address...")
         self.node(1).send(
             IPv6(src=str(self.node(2).global_ip()), dst=str(self.target(1).global_ip()))/
                 ICMPv6EchoRequest(seq=self.next_seq()))
         
         self.logger.info("Checking for a reply ...")
-        r1 = self.router(1).received(iface=1, src=self.target(1).link_local_ip(), type=ICMPv6ND_NS)
+        r1 = self.router(1).received(iface=1, src=[self.target(1).link_local_ip(), self.target(1).global_ip()], 
+            dst=self.router(1).link_local_ip(iface=1).solicited_node(), type=ICMPv6ND_NS)
+
         assertGreaterThanOrEqualTo(1,len(r1), "expected to receive Neighbor Solicitation")
 
         assertEqual(self.router(1).link_local_ip(iface=1), IPAddress.identify(r1[0].getlayer(ICMPv6ND_NS).tgt))
