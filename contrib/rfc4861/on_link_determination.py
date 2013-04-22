@@ -13,6 +13,8 @@ class OnLinkDeterminationLinkLocalTestCase(ComplianceTestCase):
                     Protocols (v6LC.2.1.1a)
     """
 
+    disabled_nd = True
+
     def run(self):
         self.logger.info("Sending ICMP Echo Request, to UUT's Link Local address...")
         self.node(1).send(
@@ -36,6 +38,8 @@ class OnLinkDeterminationGlobalTestCase(ComplianceTestCase):
     Source:         IPv6 Ready Phase-1/Phase-2 Test Specification Core
                     Protocols (v6LC.2.1.1b)
     """
+
+    disabled_nd = True
 
     def run(self):
         self.logger.info("Sending ICMP Echo Request, to UUT's global address...")
