@@ -113,8 +113,8 @@ class IPv6BasicEndNodeSpecification(ComplianceTestSuite):
     TestCase_236 = options_processing_destination_options_header.OptionsProcessingDestinationOptionsHeaderMostSignificantBits11MulticastDestinationTestCase
     TestCase_237 = unrecognised_routing_type.UnrecognisedRoutingTypeType33TestCase
     TestCase_238 = unrecognised_routing_type.UnrecognisedRoutingTypeType0TestCase
-    # TestCase_239 for routers only (unrecognised_routing_type_intermediate_node.UnrecognisedRoutingTypeType33TestCase)
-    # TestCase_240 for routers only (unrecognised_routing_type_intermediate_node.UnrecognisedRoutingTypeType0TestCase)
+    TestCase_239 = unrecognised_routing_type.UnrecognisedRoutingTypeType33IntermediateNodeTestCase
+    TestCase_240 = unrecognised_routing_type.UnrecognisedRoutingTypeType0IntermediateNodeTestCase
 
     # Group 3: Fragmentation
     TestCase_301 = fragment_reassembly.FragmentReassemblyAllFragmentsValidTestCase
@@ -219,8 +219,8 @@ class IPv6BasicIntermediateNodeSpecification(ComplianceTestSuite):
     TestCase_234 = options_processing_destination_options_header.OptionsProcessingDestinationOptionsHeaderMostSignificantBits11UnicastDestinationTestCase
     TestCase_235 = options_processing_destination_options_header.OptionsProcessingDestinationOptionsHeaderMostSignificantBits10MulticastDestinationTestCase
     TestCase_236 = options_processing_destination_options_header.OptionsProcessingDestinationOptionsHeaderMostSignificantBits11MulticastDestinationTestCase
-    # TestCase_237 for end nodes only (unrecognised_routing_type.UnrecognisedRoutingTypeType33TestCase)
-    # TestCase_238 for end nodes only (unrecognised_routing_type.UnrecognisedRoutingTypeType0TestCase)
+    TestCase_237 = unrecognised_routing_type.UnrecognisedRoutingTypeType33TestCase
+    TestCase_238 = unrecognised_routing_type.UnrecognisedRoutingTypeType0TestCase
     TestCase_239 = unrecognised_routing_type.UnrecognisedRoutingTypeType33IntermediateNodeTestCase
     TestCase_240 = unrecognised_routing_type.UnrecognisedRoutingTypeType0IntermediateNodeTestCase
 

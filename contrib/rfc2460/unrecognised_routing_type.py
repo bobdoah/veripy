@@ -76,8 +76,8 @@ class UnrecognisedRoutingTypeIntermediateNodeHelper(ComplianceTestCase):
         r1 = self.node(2).received(src=self.target(1).global_ip(), type=ICMPv6ParamProblem)
 
         assertEqual(1, len(r1), "expected to receive an ICMPv6 Parameter Problem")
-        assertEqual(0x2a, r1[0].getlayer(ICMPv6ParamProblem).ptr)
-        assertEqual(0, r1[0].getlayer(ICMPv6ParamProblem).code)
+        assertEqual(0x2a, r1[0].getlayer(ICMPv6ParamProblem).ptr, "Expected the ICMPv6 Parameter Problem pointer to be 0x2a (42)")
+        assertEqual(0, r1[0].getlayer(ICMPv6ParamProblem).code, "Expected the ICMPv6 Parameter Problem code to be 0")
 
 
 class UnrecognisedRoutingTypeType33IntermediateNodeTestCase(UnrecognisedRoutingTypeIntermediateNodeHelper):
