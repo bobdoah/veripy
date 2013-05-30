@@ -64,7 +64,7 @@ class UnrecognisedRoutingTypeIntermediateNodeHelper(ComplianceTestCase):
         self.logger.info("Sending IPv6 packet header with a Routing Type of %d.", self.rt)
         self.node(2).send( \
             IPv6(src=str(self.node(2).global_ip()), dst=str(self.target(1).global_ip()), nh=43)/
-                IPv6ExtHdrRouting(nh=58, len=6, type=self.rt, segleft=0, addresses=[str(self.node(2).global_ip()), str(self.node(3).global_ip()), str(self.router(1).global_ip())])/
+                IPv6ExtHdrRouting(nh=58, len=6, type=self.rt, segleft=1, addresses=[str(self.node(2).global_ip()), str(self.node(3).global_ip()), str(self.router(1).global_ip())])/
                     ICMPv6EchoRequest(seq=self.next_seq()))
                     
         self.logger.info("Checking for a reply...")
