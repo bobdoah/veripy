@@ -7,7 +7,7 @@ def assertEqual(expected, actual, message=''):
     if expected != actual:
         raise AssertionFailedError(message == '' and 'expected ' + str(expected) + ' got ' + str(actual) or message)
     else:
-	return True
+        return True
 
 def assertNotEqual(expected, actual, message=''):
     AssertionCounter.incr()
