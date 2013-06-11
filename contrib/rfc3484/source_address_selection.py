@@ -87,6 +87,7 @@ class PreferHomeAddressTestCase(ComplianceTestCase):
     @private
     Source:         RFC 3484 Section 5, Rule 4
     """
+    optional = True
     pass
 
 
@@ -252,6 +253,7 @@ class SourceAddressMustBeIPv4MappedOnSIITNodeTestCase(ComplianceTestCase):
     @private
     Source:         RFC 3484 Page 8 Paragraph 9
     """
+    optional = True
     
     def run(self):
         if len(self.node(1).ip(type='v4mapped', offset='*')) == 0:
@@ -280,6 +282,7 @@ class SourceAddressMustNotBeIPv4MappedOnSIITNodeTestCase(ComplianceTestCase):
     @private
     Source:         RFC 3484 Page 8 Paragraph 9
     """
+    optional = True
 
     def run(self):
         if len(self.node(1).ip(type='v4mapped', offset='*')) == 0:
