@@ -28,7 +28,7 @@ class ChooseSameAddressTestCase(ComplianceTestCase):
         assertEqual(0, len(r1), "did not expect to see the ICMPv6 Echo Request sent by the UUT")
             
         result = self.ui.ask("Was the source addresses: %s?" % self.target(1).global_ip(offset=0))
-        assertEqual(True, result, "expected the source address to be: %s. " % self.target(1).global_ip(offset=0)
+        assertEqual(True, result, "expected the source address to be: %s. " % self.target(1).global_ip(offset=0))
             
         self.ui.tell("Please send an ICMPv6 Echo Request from the UUT to %s." % self.target(1).global_ip(offset=1))
         self.ui.ask("Have you sent the Echo Request?")
@@ -39,7 +39,7 @@ class ChooseSameAddressTestCase(ComplianceTestCase):
         assertEqual(0, len(r1), "did not expect to see the ICMPv6 Echo Request sent by the UUT")
 
         result = self.ui.ask("Was the source addresses: %s?" % self.target(1).global_ip(offset=1))
-        assertEqual(True, result, "expected the source address to be: %s. " % self.target(1).global_ip(offset=1)
+        assertEqual(True, result, "expected the source address to be: %s. " % self.target(1).global_ip(offset=1))
 
         self.ui.tell("Please send an ICMPv6 Echo Request from the UUT to %s." % self.target(1).link_local_ip())
         self.ui.ask("Have you sent the Echo Request?")
