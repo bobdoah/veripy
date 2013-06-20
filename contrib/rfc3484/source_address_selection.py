@@ -27,7 +27,7 @@ class ChooseSameAddressTestCase(ComplianceTestCase):
 
         assertEqual(0, len(r1), "did not expect to see the ICMPv6 Echo Request sent by the UUT")
             
-        result = self.ui.ask("Was the source addresses: %s?" % self.target(1).global_ip(offset=0))
+        result = self.ui.ask("Was the source address: %s?" % self.target(1).global_ip(offset=0))
         assertEqual(True, result, "expected the source address to be: %s. " % self.target(1).global_ip(offset=0))
             
         self.ui.tell("Please send an ICMPv6 Echo Request from the UUT to %s." % self.target(1).global_ip(offset=1))
@@ -38,18 +38,18 @@ class ChooseSameAddressTestCase(ComplianceTestCase):
 
         assertEqual(0, len(r1), "did not expect to see the ICMPv6 Echo Request sent by the UUT")
 
-        result = self.ui.ask("Was the source addresses: %s?" % self.target(1).global_ip(offset=1))
+        result = self.ui.ask("Was the source address: %s?" % self.target(1).global_ip(offset=1))
         assertEqual(True, result, "expected the source address to be: %s. " % self.target(1).global_ip(offset=1))
 
         self.ui.tell("Please send an ICMPv6 Echo Request from the UUT to %s." % self.target(1).link_local_ip())
         self.ui.ask("Have you sent the Echo Request?")
 
-        self.logger.info("Attempting to find the second Echo Request.")
+        self.logger.info("Attempting to find the third Echo Request.")
         r1 = self.node(1).received(dst=self.target(1).link_local_ip(), type=ICMPv6EchoRequest)
 
         assertEqual(0, len(r1), "did not expect to see the ICMPv6 Echo Request sent by the UUT")
 
-        result = self.ui.ask("Was the source addresses: %s?" % self.target(1).link_local_ip())
+        result = self.ui.ask("Was the source address: %s?" % self.target(1).link_local_ip())
         assertEqual(True, result, "expected the source address to be: %s. " % self.target(1).link_local_ip())
 
 
