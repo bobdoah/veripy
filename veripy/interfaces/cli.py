@@ -47,6 +47,7 @@ Arguments:
         self.__parser.add_option("-p", action="append", dest="protocols", help="specify a requirement for a particular optional protocol", metavar="PROTOCOL")
         self.__parser.add_option("-s", "--simulate", action="store_true", help="only simulate the test sequence, without actually running them")
         self.__parser.add_option("-t", "--target", action="callback", callback=parse_target, default={}, dest="targets", help="provide configuration of the interfaces of the UUT", metavar="OPTIONS")
+        self.__parser.add_option("-l", "--log-file", help="The name of file to dump the log to")
 
         limit_options = OptionGroup(self.__parser, "Running Fewer Test Suites")
         limit_options.add_option("--case", dest="case_rx", help="only run Test Cases whose names match PATTERN", metavar="PATTERN")
@@ -66,6 +67,8 @@ Arguments:
 
     def run(self, argv=[]):
         (options, args) = self.__parser.parse_args(argv)
+        if options.log_file is not None:
+            self.add_file_handler_to_logger(options.log_file)
 
         self.configuration = self.__configuration_klass(args, options, self)
         self.runner = self.configuration.build_runner(self.__runner_klass)
@@ -75,13 +78,20 @@ Arguments:
     def __prepare_logging(self):
         self.__logger = getLogger(".veripy")
         self.__logger.setLevel(INFO)
+        self.add_stream_handler_to_logger()
         
-        file_h = FileHandler('log/veripy.log')
-        file_h.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
+    @staticmethod
+    def logging_formatter():
+        return Formatter('%(asctime)s %(levelname)s %(message)s')
+
+    def add_file_handler_to_logger(self, log_file):
+        file_h = FileHandler(log_file)
+        file_h.setFormatter(self.logging_formatter())
         self.__logger.addHandler(file_h)
 
+    def add_stream_handler_to_logger(self):
         stream_h = StreamHandler(stdout)
-        stream_h.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
+        stream_h.setFormatter(self.logging_formatter())
         self.__logger.addHandler(stream_h)
 
 
