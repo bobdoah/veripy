@@ -1,4 +1,4 @@
-from optparse import OptionParser, OptionGroup
+from optparse import OptionParser, OptionGroup, OptionValueError
 from tests.mocks.test_network import MockInterface, MockTap, MockTargetInterface
 from veripy import Configuration
 from veripy.models import TestNetwork
@@ -73,7 +73,7 @@ def parse_target(option, opt_str, value, parser):
     del parser.rargs[:len(value)]
     # check that we haven't already seen a definition for this target
     if value[0] in getattr(parser.values, option.dest):
-        raise InvalidOptionsError('already got definition for target ' + repr(value[1]))
+        raise OptionValueError('already got definition for target ' + repr(value[1]))
     # finally, save the subnet definition into the options dictionary.
     getattr(parser.values, option.dest)[value[0]] = value[1:]
 

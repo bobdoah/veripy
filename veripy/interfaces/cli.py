@@ -1,5 +1,5 @@
 from logging import getLogger, FileHandler, Formatter, INFO, StreamHandler
-from optparse import OptionGroup, OptionParser
+from optparse import OptionGroup, OptionParser, OptionValueError
 from sys import stdout
 from time import sleep
 from veripy.interfaces.abstract import Callbacks as AbstractCallbacks
@@ -40,7 +40,7 @@ Arguments:
 
         self.__configuration_klass = configuration
         self.__runner_klass = runner
-        self.__parser = VeripyOptionsParser(usage=self.__class__.__usage)
+        self.__parser = OptionParser(usage=self.__class__.__usage)
         
         self.__parser.add_option("-c", dest="configuration", help="specify the veripy configuration file to use", metavar="veripy-config.cfg")
         self.__parser.add_option("-f", action="append", dest="formats", help="specify an output format (F) to PATH", metavar="F PATH", nargs=2)
@@ -123,12 +123,6 @@ class Callbacks(AbstractCallbacks):
     def write(self, prompt):
         print prompt
 
-
-class VeripyOptionsParser(OptionParser):
-
-    def error(self, msg):
-        pass
-
 def parse_target(option, opt_str, value, parser):
     """
     Parses a target definition from the commandline, accepting the link
@@ -150,7 +144,7 @@ def parse_target(option, opt_str, value, parser):
     del parser.rargs[:len(value)]
     # check that we haven't already seen a definition for this target
     if value[0] in getattr(parser.values, option.dest):
-        raise InvalidOptionsError('already got definition for target ' + repr(value[1]))
+        raise OptionValueError('already got definition for target ' + repr(value[1]))
     # finally, save the subnet definition into the options dictionary.
     getattr(parser.values, option.dest)[value[0]] = value[1:]
     
