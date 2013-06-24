@@ -48,12 +48,12 @@ class ICMPv6EndNodeSpecification(ComplianceTestSuite):
     TestCase_018 = erroneous_header_field.ErroneousHeaderFieldTestCase
     TestCase_019 = unrecognized_next_header.UnrecognizedNextHeaderTestCase
     TestCase_020 = unknown_informational_message_type.UnknownInformationalMessageTypeTestCase
-    TestCase_021 = error_condition_with_icmpv6_error_messages.FlawedDstUnreachableCode0WithDestinationUnreachableTestCase
-    TestCase_022 = error_condition_with_icmpv6_error_messages.FlawedDstUnreachableCode3WithHopLimit0TestCase
-    TestCase_023 = error_condition_with_icmpv6_error_messages.FlawedTimeExceededCode0WithNoRouteToDestinationTestCase
-    TestCase_024 = error_condition_with_icmpv6_error_messages.FlawedTimeExceededCode1WithNoRouteToDestinationTestCase
-    TestCase_025 = error_condition_with_icmpv6_error_messages.FlawedDstPacketTooBigWithAddressUnreachableTestCase
-    TestCase_026 = error_condition_with_icmpv6_error_messages.FlawedParamProblemWithHopLimit0TestCase
+    #TestCase_021 for routers only (error_condition_with_icmpv6_error_messages.FlawedDstUnreachableCode0WithDestinationUnreachableTestCase)
+    #TestCase_022 for routers only (error_condition_with_icmpv6_error_messages.FlawedDstUnreachableCode3WithHopLimit0TestCase)
+    #TestCase_023 for routers only (error_condition_with_icmpv6_error_messages.FlawedTimeExceededCode0WithNoRouteToDestinationTestCase)
+    #TestCase_024 for routers only (error_condition_with_icmpv6_error_messages.FlawedTimeExceededCode1WithNoRouteToDestinationTestCase)
+    #TestCase_025 for routers only (error_condition_with_icmpv6_error_messages.FlawedDstPacketTooBigWithAddressUnreachableTestCase)
+    #TestCase_026 for routers only (error_condition_with_icmpv6_error_messages.FlawedParamProblemWithHopLimit0TestCase)
     TestCase_027 = error_condition_with_multicast_destination.UDPPortUnreachableTestCase
     TestCase_028 = error_condition_with_multicast_destination.EchoRequestReassemblyTimeoutTestCase
     TestCase_029 = error_condition_with_non_unique_source.NonUniqueSourceUDPPortUnreachableTestCase
