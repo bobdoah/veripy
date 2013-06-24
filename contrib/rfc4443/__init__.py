@@ -64,10 +64,10 @@ class ICMPv6EndNodeSpecification(ComplianceTestSuite):
     # TestCase_034 for routers only (error_condition_with_non_unique_source_multicast.NonUniqueSourceMulticastEchoRequestTooBigTestCase)
     TestCase_035 = error_condition_with_non_unique_source_multicast.NonUniqueSourceMulticastReassemblyTimeoutTestCase
     TestCase_036 = error_condition_with_non_unique_source_multicast.NonUniqueSourceMulticastInvalidDestinationOptionsTestCase
-    TestCase_037 = error_condition_with_non_unique_source_anycast.UDPPortUnreachableTestCase
-    TestCase_038 = error_condition_with_non_unique_source_anycast.EchoRequestTooBigTestCase
-    TestCase_039 = error_condition_with_non_unique_source_anycast.EchoRequestReassemblyTimeoutTestCase
-    TestCase_040 = error_condition_with_non_unique_source_anycast.EchoRequestWithUnknownOptionInDestinationOptionsTestCase
+    #TestCase_037  for routers only (error_condition_with_non_unique_source_anycast.UDPPortUnreachableTestCase)
+    #TestCase_038  for routers only (error_condition_with_non_unique_source_anycast.EchoRequestTooBigTestCase)
+    #TestCase_039  for routers only (error_condition_with_non_unique_source_anycast.EchoRequestReassemblyTimeoutTestCase)
+    #TestCase_040  for routers only (error_condition_with_non_unique_source_anycast.EchoRequestWithUnknownOptionInDestinationOptionsTestCase)
 
 
 class ICMPv6IntermediateNodeSpecification(ComplianceTestSuite):
