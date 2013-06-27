@@ -20,9 +20,10 @@ class ChooseSameAddressTestCase(ComplianceTestCase):
         
         self.ui.tell("Please send an ICMPv6 Echo Request from the UUT to %s and visually inspect the source address used." % 
             self.target(1).global_ip(offset=0))
-        self.ui.ask("Have you sent the Echo Request?")
+        result = self.ui.ask("Have you successfully sent the Echo Request?")
+        assertEqual(True, result, "UUT must be able to ping it's own address")
         
-        self.logger.info("Attempting to find the Echo Request.")
+        self.logger.info("Attempting to find the Echo Request (None expected).")
         r1 = self.node(1).received(dst=self.target(1).global_ip(offset=0), type=ICMPv6EchoRequest)
 
         assertEqual(0, len(r1), "did not expect to see the ICMPv6 Echo Request sent by the UUT")
