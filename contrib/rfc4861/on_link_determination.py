@@ -14,6 +14,7 @@ class OnLinkDeterminationLinkLocalTestCase(ComplianceTestCase):
     """
 
     disabled_nd = True
+    disabled_ra = True
 
     def run(self):
         self.logger.info("Sending ICMP Echo Request, to UUT's Link Local address...")
@@ -40,8 +41,15 @@ class OnLinkDeterminationGlobalTestCase(ComplianceTestCase):
     """
 
     disabled_nd = True
+    disabled_ra = True
 
     def run(self):
+        self.logger.info("Sending Router Advertisement")
+        self.router(1).send( 
+            IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst="ff02::1")/\
+                ICMPv6ND_RA(code=0)/
+                ICMPv6NDOptPrefixInfo(prefixlen=self.router(1).iface(1).global_ip().prefix_size, prefix=self.router(1).iface(1).global_ip().network()),
+            iface=1)
         self.logger.info("Sending ICMP Echo Request, to UUT's global address...")
         self.node(1).send(
             IPv6(src=str(self.node(1).global_ip()), dst=str(self.target(1).global_ip()))/
