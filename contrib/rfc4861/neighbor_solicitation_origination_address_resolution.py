@@ -34,8 +34,8 @@ class RetransmitIntervalHelper(ComplianceTestCase):
         self.logger.info("Checking the retransmit interval...")
         retransmit_lower_bound = self.retranstimer_seconds * 0.8
         retransmit_upper_bound = self.retranstimer_seconds * 1.2
-        retransmit_interval_error = "expected retransmit interval to be between %.2f and %.2f seconds, got %.2f" % (
-            retransmit_lower_bound, retransmit_upper_bound, delta
+        retransmit_interval_error = "expected retransmit interval to be between %.2f and %.2f seconds, got %%.2f" % (
+            retransmit_lower_bound, retransmit_upper_bound
         )
         for i in range(0, len(r1) - 2):
             assertHasLayer(ICMPv6NDOptSrcLLAddr, r1[i], "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
@@ -45,8 +45,8 @@ class RetransmitIntervalHelper(ComplianceTestCase):
 
             delta = r1[i+1].time - r1[i].time
 
-            assertGreaterThanOrEqualTo(retransmit_lower_bound, delta, retransmit_interval_error)
-            assertLessThanOrEqualTo(retransmit_upper_bound, delta, retransmit_interval_error) 
+            assertGreaterThanOrEqualTo(retransmit_lower_bound, delta, retransmit_interval_error % delta)
+            assertLessThanOrEqualTo(retransmit_upper_bound, delta, retransmit_interval_error % delta) 
 
 
 
