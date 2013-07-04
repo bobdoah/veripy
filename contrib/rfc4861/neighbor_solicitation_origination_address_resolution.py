@@ -27,7 +27,8 @@ class RetransmitIntervalHelper(ComplianceTestCase):
 
         self.ui.wait(self.retranstimer_seconds * 4)
         self.logger.info("Checking for Neighbor Solicitation from HUT...")
-        r1 = self.node(1).received(src=self.echo_dst, dst=self.echo_src.solicited_node(), type=ICMPv6ND_NS)
+        r1 = self.node(1).received(src=[self.node(1).link_local_ip(), self.node(1).global_ip()], 
+            dst=self.echo_src.solicited_node(), type=ICMPv6ND_NS)
 
         assertEqual(3, len(r1), "expected to receive 3 Neighbor Solicitations, got %d" % (len(r1)))
 
