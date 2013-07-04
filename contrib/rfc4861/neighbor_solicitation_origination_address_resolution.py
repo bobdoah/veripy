@@ -39,10 +39,10 @@ class RetransmitIntervalHelper(ComplianceTestCase):
             retransmit_lower_bound, retransmit_upper_bound
         )
         for i in range(0, len(r1) - 2):
-            assertHasLayer(ICMPv6NDOptSrcLLAddr, r1[i], "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
-            assertEqual(r1[i][ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
-            assertHasLayer(ICMPv6NDOptSrcLLAddr, r1[i+1], "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
-            assertEqual(r1[i+1][ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
+            for ns in (r1[i], r1[i+1]):
+                assertEqual(ns[ICMPv6ND_NS].tgt, self.echo_src, "expected each the target of the Neighbor solictation to be %s" % self.echo_src)
+                assertHasLayer(ICMPv6NDOptSrcLLAddr, ns, "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
+                assertEqual(ns[ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
 
             delta = r1[i+1].time - r1[i].time
 
