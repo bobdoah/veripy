@@ -9,13 +9,13 @@ class RetransmitIntervalHelper(ComplianceTestCase):
     restart_uut = True
     
     def set_up(self):
-        raise Exception("override #set_up to define #retranstimer, #echo_src and #echo_dst")
+        raise Exception("override #set_up to define #retranstimer_seconds, #echo_src and #echo_dst")
         
     def run(self):
-        self.logger.info("Sending Router Advertisement (Retransmit Timer of %d seconds)..." % self.retranstimer)
+        self.logger.info("Sending Router Advertisement (Retransmit Timer of %d seconds)..." % self.retranstimer_seconds)
         self.router(1).send(
             IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst="ff02::1")/
-                ICMPv6ND_RA(O=True, routerlifetime=100, reachabletime=10,retranstimer=self.retranstimer)/
+                ICMPv6ND_RA(O=True, routerlifetime=1800, reachabletime=30000, retranstimer=(self.retranstimer_seconds * 1000))/
                     ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr)/
                     ICMPv6NDOptMTU(mtu=self.router(1).iface(1).ll_protocol.mtu)/
                     ICMPv6NDOptPrefixInfo(prefixlen=self.link(2).v6_prefix_size, prefix=self.link(2).v6_prefix, validlifetime=20, preferredlifetime=20), iface=1)
@@ -25,13 +25,18 @@ class RetransmitIntervalHelper(ComplianceTestCase):
             IPv6(src=str(self.echo_src), dst=str(self.echo_dst))/
                 ICMPv6EchoRequest())
 
-        self.ui.wait(self.retranstimer * 4)
+        self.ui.wait(self.retranstimer_seconds * 4)
         self.logger.info("Checking for Neighbor Solicitation from HUT...")
         r1 = self.node(1).received(src=self.echo_dst, dst=self.echo_src.solicited_node(), type=ICMPv6ND_NS)
 
         assertEqual(3, len(r1), "expected to receive 3 Neighbor Solicitations, got %d" % (len(r1)))
 
         self.logger.info("Checking the retransmit interval...")
+        retransmit_lower_bound = self.retranstimer_seconds * 0.8
+        retransmit_upper_bound = self.retranstimer_seconds * 1.2
+        retransmit_interval_error = "expected retransmit interval to be between %.2f and %.2f seconds, got %.2f" % (
+            retransmit_lower_bound, retransmit_upper_bound, delta
+        )
         for i in range(0, len(r1) - 2):
             assertHasLayer(ICMPv6NDOptSrcLLAddr, r1[i], "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
             assertEqual(r1[i][ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
@@ -40,8 +45,9 @@ class RetransmitIntervalHelper(ComplianceTestCase):
 
             delta = r1[i+1].time - r1[i].time
 
-            assertGreaterThanOrEqualTo(self.retranstimer * 0.8, delta, "expected retransmit interval to be between %.2f and %.2f seconds, got %.2f" % (self.retranstimer * 0.8, self.retranstimer * 1.2, delta))
-            assertLessThanOrEqualTo(self.retranstimer * 1.2, delta, "expected retransmit interval to be between %.2f and %.2f seconds, %.2f" % (self.retranstimer * 0.8, self.retranstimer * 1.2, delta))
+            assertGreaterThanOrEqualTo(retransmit_lower_bound, delta, retransmit_interval_error)
+            assertLessThanOrEqualTo(retransmit_upper_bound, delta, retransmit_interval_error) 
+
 
 
 class LinkLocalRetransmitInterval1TestCase(RetransmitIntervalHelper):
@@ -58,7 +64,7 @@ class LinkLocalRetransmitInterval1TestCase(RetransmitIntervalHelper):
     """
 
     def set_up(self):
-        self.retranstimer = 1
+        self.retranstimer_seconds = 1
 
         self.echo_src = self.node(1).link_local_ip()
         self.echo_dst = self.target(1).link_local_ip()
@@ -78,7 +84,7 @@ class LinkLocalRetransmitInterval5TestCase(RetransmitIntervalHelper):
     """
 
     def set_up(self):
-        self.retranstimer = 5
+        self.retranstimer_seconds = 5
 
         self.echo_src = self.node(1).link_local_ip()
         self.echo_dst = self.target(1).link_local_ip()
@@ -98,7 +104,7 @@ class GlobalRetransmitInterval1TestCase(RetransmitIntervalHelper):
     """
 
     def set_up(self):
-        self.retranstimer = 1
+        self.retranstimer_seconds = 1
 
         self.echo_src = self.node(1).global_ip()
         self.echo_dst = self.target(1).global_ip()
@@ -118,7 +124,7 @@ class GlobalRetransmitInterval5TestCase(RetransmitIntervalHelper):
     """
 
     def set_up(self):
-        self.retranstimer = 5
+        self.retranstimer_seconds = 5
 
         self.echo_src = self.node(1).global_ip()
         self.echo_dst = self.target(1).global_ip()
