@@ -17,7 +17,7 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
         self.logger.info("Sending NRA (Override Flag set, Retransmit Timer of 1 second, Reachable Time of 30 seconds) ...")  
         self.router(1).send( \
             IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/
-                ICMPv6ND_RA(O=True, retranstimer=1, reachabletime=0.5)/
+                ICMPv6ND_RA(O=True, retranstimer=1000, reachabletime=30000)/
                     ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr)/
                     ICMPv6NDOptMTU(mtu=self.router(1).iface(1).ll_protocol.mtu)/
                     ICMPv6NDOptPrefixInfo(prefixlen=self.router(1).global_ip(iface=1).prefix_size, prefix=self.router(1).global_ip(iface=1).network()), iface=1)
