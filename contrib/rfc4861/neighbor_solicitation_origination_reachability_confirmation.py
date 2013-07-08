@@ -13,11 +13,18 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
     def set_up(self):
         raise Exception("override #set_up to define #src and #dst")
 
+    @staticmethod
+    def reachable_time_ms():
+        return 30000
+
+    def reachable_time_seconds(self):
+        return int(math.ceil(self.reachable_time_ms()/1000.0))
+
     def run(self):
         self.logger.info("Sending NRA (Override Flag set, Retransmit Timer of 1 second, Reachable Time of 30 seconds) ...")  
         self.router(1).send( \
             IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/
-                ICMPv6ND_RA(O=True, retranstimer=1000, reachabletime=30000)/
+                ICMPv6ND_RA(O=True, retranstimer=1000, reachabletime=self.reachable_time_ms())/
                     ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr)/
                     ICMPv6NDOptMTU(mtu=self.router(1).iface(1).ll_protocol.mtu)/
                     ICMPv6NDOptPrefixInfo(prefixlen=self.router(1).global_ip(iface=1).prefix_size, prefix=self.router(1).global_ip(iface=1).network()), iface=1)
@@ -45,7 +52,7 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
         assertEqual(1, len(r1), "expected to receive an ICMPv6 Echo Reply from the NUT, got %d" % (len(r1)))
              
         # Step 3 # Wait for the NUT's NCE for TN1 to become STALE ##############
-        self.ui.wait(int(math.ceil(MAX_RANDOM_FACTOR*0.5)))
+        self.ui.wait(int(math.ceil(MAX_RANDOM_FACTOR * self.reachable_time_seconds())))
 
         self.node(1).clear_received()
         # Step 4 ###############################################################
