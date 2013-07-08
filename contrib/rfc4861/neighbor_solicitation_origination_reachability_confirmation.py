@@ -29,24 +29,10 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
                 ICMPv6EchoRequest(seq=self.next_seq()))
 
         # Step 2 ###############################################################
-        self.logger.info("Waiting for the NUT to send Neighbor Solicitations...")
-        self.ui.wait(3)
+        self.logger.info("Checking for neighbour solictations")
         r1 = self.node(1).received(src=self.dst, dst=self.src.solicited_node(), type=ICMPv6ND_NS)
         
         assertGreaterThanOrEqualTo(1, len(r1), "expected to receive a Neighbor Solicitation for TN1")
-        assertLessThanOrEqualTo(3, len(r1), "did not expect to receive more than three Neighbor Solicitations for TN1")
-
-        self.logger.info("Checking the retransmit interval...")
-        for i in range(0, len(r1) - 2):
-            assertHasLayer(ICMPv6NDOptSrcLLAddr, r1[i], "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
-            assertEqual(r1[i][ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
-            assertHasLayer(ICMPv6NDOptSrcLLAddr, r1[i+1], "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
-            assertEqual(r1[i+1][ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
-
-            delta = r1[i+1].time - r1[i].time
-
-            assertGreaterThanOrEqualTo(0.8, delta, "expected retransmit interval to be between %.2f and %.2f seconds, got %.2f" % (0.8, 1.2, delta))
-            assertLessThanOrEqualTo(1.2, delta, "expected retransmit interval to be between %.2f and %.2f seconds, %.2f" % (0.8, 1.2, delta))
 
         self.logger.info("Sending a Neighbor Advertisement...")
         self.node(1).send(
