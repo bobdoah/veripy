@@ -37,7 +37,8 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
 
         # Step 2 ###############################################################
         self.logger.info("Checking for neighbour solictations")
-        r1 = self.node(1).received(src=self.dst, dst=self.src.solicited_node(), type=ICMPv6ND_NS)
+        r1 = self.node(1).received(src=[self.target(1).link_local_ip(), self.target(1).global_ip()],
+            dst=self.src.solicited_node(), type=ICMPv6ND_NS)
         
         assertGreaterThanOrEqualTo(1, len(r1), "expected to receive a Neighbor Solicitation for TN1")
 
@@ -72,7 +73,8 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
         self.node(1).clear_received()
         self.ui.wait(3)
         # Step 7 ###############################################################
-        r1 = self.node(1).received(src=self.dst, dst=self.src.solicited_node(), type=ICMPv6ND_NS)
+        r1 = self.node(1).received(src=[self.target(1).link_local_ip(), self.target(1).global_ip()],
+            dst=self.src.solicited_node(), type=ICMPv6ND_NS)
 
         assertGreaterThanOrEqualTo(1, len(r1), "expected UUT to start probing for TN1")
         assertLessThanOrEqualTo(3, len(r1), "did not expect to receive more than three Neighbor Solicitations for TN1")
