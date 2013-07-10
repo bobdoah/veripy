@@ -4,13 +4,54 @@ from veripy.models import ComplianceTestCase
 
 class IsRouterFlagHelper(ComplianceTestCase):
 
+    disabled_ra = True
     disabled_nd = True
     restart_uut = True
 
     def set_up(self):
         raise Exception("override #set_up to set #p")
 
+    def common_test_setup(self):
+        """ This is the test setup method that should be common to a 
+        whole bunch of tests, but unfortunately the original author
+        chose to implement this in a totally different way. 
+
+        TODO: make this actually common"""
+        self.logger.info("Executing common test setup 1.1")
+        self.logger.info("Sending a router solicitation from TR1")
+        self.router(1).send(
+            IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst='ff02::1')/\
+            ICMPv6ND_RA(routerlifetime=1800, reachabletime=30000, retranstimer=1000)/\
+            ICMPv6NDOptPrefixInfo(
+                prefixlen = self.router(1).global_ip(iface=1).prefix_size,
+                prefix = self.router(1).global_ip(iface=1).network()
+            ),
+        iface=1)
+        self.logger.info("Sending an ICMPv6 Echo Request from TR1")
+        self.router(1).send(
+            IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/\
+            ICMPv6EchoRequest(seq=self.next_seq()),
+        iface=1)
+        self.logger.info("Checking for a Neighbor Solicitation")
+        rcvd  = self.router(1).received(src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1).solicted_node(),
+            type=ICMPv6ND_NS)
+        assertEqual(1, len(rcvd), "expected the NUT to send a Neighbor Solictation to TR1's solicted node address")
+        assertEqual(self.router(1).link_local_ip(iface=1), rcvd[0][ICMPv6ND_NS].tgt, 
+            "expected the NUT to send a Neighbor Solicitation targeting TR1's link-local address")
+        self.logger.info("Sending a Neighbor Advertisement")
+        self.router(1).send(
+            IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/\
+            ICMPv6ND_NA(R=1, S=1, O=1, tgt=self.router(1).link_local_ip(iface=1))/\
+            ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr()),
+        iface=1)
+        self.logger.info("Checking for an ICMPv6 Echo Reply")
+        rcvd = self.router(1).received(src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1), 
+            seq=self.seq(), type=ICMPv6EchoReply)
+        assertEqual(1, len(rcvd), "expected the NUT to send an ICMPv6 Echo Reply to TR1")
+        self.router(1).clear_received()
+        
     def run(self):
+        self.common_test_setup()
         self.logger.info("Sending a Neighbor solicitation from TR1...")
         self.router(1).send(self.p, iface=1)
 
