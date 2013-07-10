@@ -41,6 +41,8 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
             dst=self.src.solicited_node(), type=ICMPv6ND_NS)
         
         assertGreaterThanOrEqualTo(1, len(r1), "expected to receive a Neighbor Solicitation for TN1")
+        for ns in r1:
+            assertEqual(ns[ICMPv6ND_NS].tgt, self.src, "expected the target of the Neighbor solicitation to be %s" % self.src)
 
         self.logger.info("Sending a Neighbor Advertisement...")
         self.node(1).send(
@@ -81,10 +83,10 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
         
         self.logger.info("Checking the retransmit interval...")
         for i in range(0, len(r1) - 2):
-            assertHasLayer(ICMPv6NDOptSrcLLAddr, r1[i], "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
-            assertEqual(r1[i][ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
-            assertHasLayer(ICMPv6NDOptSrcLLAddr, r1[i+1], "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
-            assertEqual(r1[i+1][ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
+            for ns in (r1[i], r1[i+1]):
+                assertHasLayer(ICMPv6NDOptSrcLLAddr, ns, "expected each Neighbor Solicitation to contain a Source Link-Layer Address option")
+                assertEqual(ns[ICMPv6NDOptSrcLLAddr].lladdr, self.target(1).ll_addr(), "expected the Source Link-Layer address to be of the UUT")
+                assertEqual(ns[ICMPv6ND_NS].tgt, self.src, "expected the target of the Neighbor solicitation to be %s" % self.src)
 
             delta = r1[i+1].time - r1[i].time
 
