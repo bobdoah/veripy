@@ -34,7 +34,7 @@ class IsRouterFlagHelper(ComplianceTestCase):
         iface=1)
         self.logger.info("Checking for a Neighbor Solicitation")
         rcvd = self.router(1).received(src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1).solicited_node(),
-            type=ICMPv6ND_NS)
+            type=ICMPv6ND_NS, iface=1)
         assertLessThan(1, len(rcvd), "expected the NUT to send a Neighbor Solictation to TR1's solicited node address")
         assertEqual(self.router(1).link_local_ip(iface=1), rcvd[0][ICMPv6ND_NS].tgt, 
             "expected the NUT to send a Neighbor Solicitation targeting TR1's link-local address")
@@ -42,11 +42,11 @@ class IsRouterFlagHelper(ComplianceTestCase):
         self.router(1).send(
             IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/\
             ICMPv6ND_NA(R=1, S=1, O=1, tgt=self.router(1).link_local_ip(iface=1))/\
-            ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr()),
+            ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr),
         iface=1)
         self.logger.info("Checking for an ICMPv6 Echo Reply")
         rcvd = self.router(1).received(src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1), 
-            seq=self.seq(), type=ICMPv6EchoReply)
+            seq=self.seq(), type=ICMPv6EchoReply, iface=1)
         assertEqual(1, len(rcvd), "expected the NUT to send an ICMPv6 Echo Reply to TR1")
         self.router(1).clear_received()
         
@@ -68,7 +68,7 @@ class IsRouterFlagHelper(ComplianceTestCase):
         r2 = self.router(1).received(iface=1, src=self.target(1).global_ip(), dst=self.node(2).global_ip(), seq=self.seq(), type=ICMPv6EchoReply, raw=True)
         
         assertEqual(self.node(2).global_ip(), r2[0][IPv6].dst, "expected the ICMPv6 Echo Reply dst to be TN2's global address")
-        assertEqual(self.target(1).ll_addr(), r2[0][Ether].src, "expected the ICMPv6 Echo Reply Ethernet src to be the UUT")
+        assertEqual(self.target(1).ll_addr, r2[0][Ether].src, "expected the ICMPv6 Echo Reply Ethernet src to be the UUT")
         assertEqual(self.router(1).iface(1).ll_addr, r2[0][Ether].dst, "expected the ICMPv6 Echo Reply to be sent through TR1")
 
 
