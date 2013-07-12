@@ -33,7 +33,7 @@ class IsRouterFlagHelper(ComplianceTestCase):
             ICMPv6EchoRequest(seq=self.next_seq()),
         iface=1)
         self.logger.info("Checking for a Neighbor Solicitation")
-        rcvd  = self.router(1).received(src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1).solicited_node(),
+        rcvd = self.router(1).received(src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1).solicited_node(),
             type=ICMPv6ND_NS)
         assertLessThan(1, len(rcvd), "expected the NUT to send a Neighbor Solictation to TR1's solicited node address")
         assertEqual(self.router(1).link_local_ip(iface=1), rcvd[0][ICMPv6ND_NS].tgt, 
