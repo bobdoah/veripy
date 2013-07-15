@@ -68,7 +68,7 @@ class IsRouterFlagHelper(ComplianceTestCase):
         r2 = self.router(1).received(iface=1, src=self.target(1).global_ip(), dst=self.node(2).global_ip(), seq=self.seq(), type=ICMPv6EchoReply, raw=True)
         
         assertEqual(self.node(2).global_ip(), r2[0][IPv6].dst, "expected the ICMPv6 Echo Reply dst to be TN2's global address")
-        assertEqual(self.target(1).ll_addr, r2[0][Ether].src, "expected the ICMPv6 Echo Reply Ethernet src to be the UUT")
+        assertEqual(self.target(1).ll_addr(), r2[0][Ether].src, "expected the ICMPv6 Echo Reply Ethernet src to be the UUT")
         assertEqual(self.router(1).iface(1).ll_addr, r2[0][Ether].dst, "expected the ICMPv6 Echo Reply to be sent through TR1")
 
 
