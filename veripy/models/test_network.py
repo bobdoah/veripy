@@ -535,13 +535,16 @@ class TestRouter(TestNode):
         except AttributeError:
             pass
 
-    def send_ra(self):
+    def send_ra(self, include_ll_info=True):
         for i, iface in enumerate(self.ifaces()):
             ll_info = ICMPv6NDOptSrcLLAddr(lladdr=iface.ll_addr)
             link_mtu_info = ICMPv6NDOptMTU(mtu=iface.ll_protocol.mtu)
             prefix_info = ICMPv6NDOptPrefixInfo(prefixlen=iface.global_ip().prefix_size, prefix=iface.global_ip().network())
-
-            iface.send(IPv6(src=str(iface.link_local_ip()), dst="ff02::1")/ICMPv6ND_RA(prf=self.name == 'TR1' and 1 or 0)/ll_info/link_mtu_info/prefix_info)
+            ra = IPv6(src=str(iface.link_local_ip()), dst="ff02::1")/ICMPv6ND_RA(prf=self.name == 'TR1' and 1 or 0)
+            if include_ll_info:
+                ra.add_payload(ll_info)
+            ra.add_payload(link_mtu_info/prefix_info)
+            iface.send(ra)
 
     def __forward_to_if0(self, packet_or_frame, iface):
         if any(map(lambda n: (packet_or_frame.haslayer(IP) or packet_or_frame.haslayer(IPv6)) and str(IPAddress.identify(packet_or_frame.dst)) in n, self.__forwards_to_0)):

@@ -12,7 +12,7 @@ class RbitChangeHelper(ComplianceTestCase):
         raise Exception("override #set_up to define #p")
 
     def run(self):
-        self.router(1).send_ra()
+        self.router(1).send_ra(include_ll_info=False)
         
         self.logger.info("Sending an ICMPv6 Echo Request from TN2...")
         self.node(2).send(
