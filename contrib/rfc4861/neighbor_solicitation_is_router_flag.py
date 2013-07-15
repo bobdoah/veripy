@@ -42,7 +42,7 @@ class IsRouterFlagHelper(ComplianceTestCase):
         self.router(1).send(
             IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/\
             ICMPv6ND_NA(R=1, S=1, O=1, tgt=str(self.router(1).link_local_ip(iface=1)))/\
-            ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr),
+            ICMPv6NDOptDstLLAddr(lladdr=self.router(1).iface(1).ll_addr),
         iface=1)
         self.logger.info("Checking for an ICMPv6 Echo Reply")
         rcvd = self.router(1).received(src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1), 
