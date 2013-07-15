@@ -11,6 +11,9 @@ class IsRouterFlagHelper(ComplianceTestCase):
     def set_up(self):
         raise Exception("override #set_up to set #p")
 
+    def expected_destination_link_layer_address(self):
+        return self.router(1).iface(1).ll_addr
+
     def common_test_setup(self):
         """ This is the test setup method that should be common to a 
         whole bunch of tests, but unfortunately the original author
@@ -69,7 +72,7 @@ class IsRouterFlagHelper(ComplianceTestCase):
         
         assertEqual(self.node(2).global_ip(), r2[0][IPv6].dst, "expected the ICMPv6 Echo Reply dst to be TN2's global address")
         assertEqual(self.target(1).ll_addr(), r2[0][Ether].src, "expected the ICMPv6 Echo Reply Ethernet src to be the UUT")
-        assertEqual(self.router(1).iface(1).ll_addr, r2[0][Ether].dst, "expected the ICMPv6 Echo Reply to be sent through TR1")
+        assertEqual(self.expected_destination_link_layer_address(), r2[0][Ether].dst, "expected the ICMPv6 Echo Reply to be sent through TR1")
 
 
 class UnicastNeighborSolicitationWithoutSLLATestCase(IsRouterFlagHelper):
@@ -120,6 +123,9 @@ class MulticastNeighborSolicitationWithDifferentSLLATestCase(IsRouterFlagHelper)
     Source          IPv6 Ready Phase-1/Phase-2 Test Specification Core
                     Protocols (v6LC.2.1.13c)
     """
+
+    def expected_destination_link_layer_address(self):
+        return self.router(2).iface(1).ll_addr
 
     def set_up(self):
         self.p = IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/\
