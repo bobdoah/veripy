@@ -53,7 +53,7 @@ Arguments:
         limit_options.add_option("--case", dest="case_rx", help="only run Test Cases whose names match PATTERN", metavar="PATTERN")
         limit_options.add_option("--skip-optional", action="store_true", dest="skip_optional", help="disable tests for optional requirements")
         limit_options.add_option("--suite", dest="suite_rx", help="only run Test Suites whose names match PATTERN", metavar="PATTERN")
-        limit_options.add_option("--maximum-attempts", help="The maximum number of times to attempt to run each test case")
+        limit_options.add_option("--maximum-attempts", help="The maximum number of times to attempt to run each test case", type="int")
         self.__parser.add_option_group(limit_options)
 
         report_options = OptionGroup(self.__parser, "Report Options")
