@@ -7,6 +7,7 @@ class RbitChangeHelper(ComplianceTestCase):
 
     disabled_nd = True
     disabled_ra = True
+    restart_uut = True
 
     def set_up(self):
         raise Exception("override #set_up to define #p")
