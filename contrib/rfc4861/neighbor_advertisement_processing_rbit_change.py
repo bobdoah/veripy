@@ -26,6 +26,11 @@ class RbitChangeHelper(ComplianceTestCase):
             assertEqual(self.router(1).link_local_ip(iface=1), p[ICMPv6ND_NS].tgt, "expected Neighbor Solicitations to be for TR1's link local address")
 
         self.logger.info("Sending a Neighbor Advertisement from TR1...")
+        self.router(1).send(
+            IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/\
+                ICMPv6ND_NA(R=1, S=1, O=1, tgt=str(self.router(1).link_local_ip(iface=1)))/\
+                    ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr),
+        iface=1)
         self.router(1).respond_to_neighbour_solicitation(r1[0], self.router(1).iface(1))
 
         self.logger.info("Checking for an Echo Reply for TN2...")
