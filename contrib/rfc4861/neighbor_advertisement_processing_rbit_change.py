@@ -19,14 +19,14 @@ class RbitChangeHelper(ComplianceTestCase):
             IPv6(src=str(self.node(2).global_ip()), dst=str(self.target(1).global_ip()))/
                 ICMPv6EchoRequest(seq=self.next_seq()))
 
-#        self.logger.info("Checking for Neighbor Solicitations for TR1 (the default router)...")
-#        r1 = self.router(1).received(iface=1, src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1).solicited_node(), type=ICMPv6ND_NS)
-#        assertGreaterThanOrEqualTo(1, len(r1), "expected the UUT to send one-or-more Neighbor Solicitations")
-#        for p in r1:
-#            assertEqual(self.router(1).link_local_ip(iface=1), p[ICMPv6ND_NS].tgt, "expected Neighbor Solicitations to be for TR1's link local address")
-#
-#        self.logger.info("Sending a Neighbor Advertisement from TR1...")
-#        self.router(1).respond_to_neighbour_solicitation(r1[0], self.router(1).iface(1))
+        self.logger.info("Checking for Neighbor Solicitations for TR1 (the default router)...")
+        r1 = self.router(1).received(iface=1, src=self.target(1).link_local_ip(), dst=self.router(1).link_local_ip(iface=1).solicited_node(), type=ICMPv6ND_NS)
+        assertGreaterThanOrEqualTo(1, len(r1), "expected the UUT to send one-or-more Neighbor Solicitations")
+        for p in r1:
+            assertEqual(self.router(1).link_local_ip(iface=1), p[ICMPv6ND_NS].tgt, "expected Neighbor Solicitations to be for TR1's link local address")
+
+        self.logger.info("Sending a Neighbor Advertisement from TR1...")
+        self.router(1).respond_to_neighbour_solicitation(r1[0], self.router(1).iface(1))
 
         self.logger.info("Checking for an Echo Reply for TN2...")
         r2 = self.node(2).received(src=self.target(1).global_ip(), seq=self.seq(), type=ICMPv6EchoReply, raw=True)
