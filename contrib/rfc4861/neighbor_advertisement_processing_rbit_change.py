@@ -29,7 +29,7 @@ class RbitChangeHelper(ComplianceTestCase):
         self.router(1).send(
             IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst=str(self.target(1).link_local_ip()))/\
                 ICMPv6ND_NA(R=1, S=1, O=1, tgt=str(self.router(1).link_local_ip(iface=1)))/\
-                    ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr),
+                    ICMPv6NDOptDstLLAdd(lladdr=self.router(1).iface(1).ll_addr),
         iface=1)
         self.router(1).respond_to_neighbour_solicitation(r1[0], self.router(1).iface(1))
 
@@ -146,7 +146,7 @@ class FlagsSet0x011TLLTestCase(RbitChangeHelper):
     def set_up(self):
         self.p = IPv6(src=str(self.router(1).iface(1).link_local_ip()), dst="ff02::1")/\
                     ICMPv6ND_NA(R=0, S=1, O=1, tgt=str(self.router(1).iface(1).link_local_ip()))/\
-                        ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr)
+                        ICMPv6NDOptDstLLAdd(lladdr=self.router(1).iface(1).ll_addr)
 
 
 class FlagsSet0x000TLLTestCase(RbitChangeHelper):
@@ -165,7 +165,7 @@ class FlagsSet0x000TLLTestCase(RbitChangeHelper):
     def set_up(self):
         self.p = IPv6(src=str(self.router(1).iface(1).link_local_ip()), dst="ff02::1")/\
                     ICMPv6ND_NA(R=0, S=0, O=0, tgt=str(self.router(1).iface(1).link_local_ip()))/\
-                        ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr)
+                        ICMPv6NDOptDstLLAdd(lladdr=self.router(1).iface(1).ll_addr)
 
 
 class FlagsSet0x001TLLTestCase(RbitChangeHelper):
@@ -184,7 +184,7 @@ class FlagsSet0x001TLLTestCase(RbitChangeHelper):
     def set_up(self):
         self.p = IPv6(src=str(self.router(1).iface(1).link_local_ip()), dst="ff02::1")/\
                     ICMPv6ND_NA(R=0, S=0, O=1, tgt=str(self.router(1).iface(1).link_local_ip()))/\
-                        ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr)
+                        ICMPv6NDOptDstLLAdd(lladdr=self.router(1).iface(1).ll_addr)
 
 
 class FlagsSet0x010TLLTestCase(RbitChangeHelper):
@@ -204,5 +204,5 @@ class FlagsSet0x010TLLTestCase(RbitChangeHelper):
     def set_up(self):
         self.p = IPv6(src=str(self.router(1).iface(1).link_local_ip()), dst="ff02::1")/\
                     ICMPv6ND_NA(R=0, S=1, O=0, tgt=str(self.router(1).iface(1).link_local_ip()))/\
-                        ICMPv6NDOptSrcLLAddr(lladdr=self.router(1).iface(1).ll_addr)
+                        ICMPv6NDOptDstLLAdd(lladdr=self.router(1).iface(1).ll_addr)
                         
