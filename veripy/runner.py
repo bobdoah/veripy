@@ -47,7 +47,7 @@ class Runner(object):
                     self.__active_case = False
                     # if the case failed, and we have done less than three attempts
                     # then offer to retry
-                    if not result.is_fail() or attempts >= 3:
+                    if not result.is_fail() or attempts >= self.__config.maximum_attempts:
                         break
                     elif result.is_fail():
                         attempts += 1

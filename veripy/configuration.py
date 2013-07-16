@@ -23,6 +23,7 @@ class Configuration(object):
         self.case_rx = options.ensure_value('case_rx', None)
         self.skip_optional = options.ensure_value('skip_optional', False)
         self.suite_rx = options.ensure_value('suite_rx', None)
+        self.maximum_attempts = options.ensure_value('maximum_attempts', 3)
         # report configuration
         self.title = options.ensure_value('title', 'veripy Test Report')
         self.vendor = options.ensure_value('vendor', 'N/A')
