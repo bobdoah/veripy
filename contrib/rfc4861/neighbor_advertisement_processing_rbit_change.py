@@ -61,7 +61,7 @@ class RbitChangeHelper(ComplianceTestCase):
 
 class FlagsSet0x011TestCase(RbitChangeHelper):
     """
-    Neighbor Advertisement Processing, R-bit Change -
+    Neighbor Advertisement Processing, R-bit Change - with R=0, S=1 and O=1 and NO TLLA
 
     Verify that a host takes appropriate actions when a neighbor who is a
     router starts transmitting Neighbor Advertisements with the Router flag
@@ -79,7 +79,7 @@ class FlagsSet0x011TestCase(RbitChangeHelper):
 
 class FlagsSet0x000TestCase(RbitChangeHelper):
     """
-    Neighbor Advertisement Processing, R-bit Change -
+    Neighbor Advertisement Processing, R-bit Change - with R=0, S=0 and O=0 and NO TLLA
 
     Verify that a host takes appropriate actions when a neighbor who is a
     router starts transmitting Neighbor Advertisements with the Router flag
@@ -97,7 +97,7 @@ class FlagsSet0x000TestCase(RbitChangeHelper):
 
 class FlagsSet0x001TestCase(RbitChangeHelper):
     """
-    Neighbor Advertisement Processing, R-bit Change
+    Neighbor Advertisement Processing, R-bit Change - with R=0, S=0 and O=1 and NO TLLA
 
     Verify that a host takes appropriate actions when a neighbor who is a
     router starts transmitting Neighbor Advertisements with the Router flag
@@ -115,7 +115,7 @@ class FlagsSet0x001TestCase(RbitChangeHelper):
 
 class FlagsSet0x010TestCase(RbitChangeHelper):
     """
-    Neighbor Advertisement Processing, R-bit Change
+    Neighbor Advertisement Processing, R-bit Change - with R=0, S=1 and O=0 and NO TLLA
 
     Verify that a host takes appropriate actions when a neighbor who is a
     router starts transmitting Neighbor Advertisements with the Router flag
@@ -133,7 +133,7 @@ class FlagsSet0x010TestCase(RbitChangeHelper):
 
 class FlagsSet0x011TLLTestCase(RbitChangeHelper):
     """
-    Neighbor Advertisement Processing, R-bit Change
+    Neighbor Advertisement Processing, R-bit Change - with R=0, S=1 and O=1 and TLLA
 
     Verify that a host takes appropriate actions when a neighbor who is a
     router starts transmitting Neighbor Advertisements with the Router flag
@@ -152,7 +152,7 @@ class FlagsSet0x011TLLTestCase(RbitChangeHelper):
 
 class FlagsSet0x000TLLTestCase(RbitChangeHelper):
     """
-    Neighbor Advertisement Processing, R-bit Change
+    Neighbor Advertisement Processing, R-bit Change - with R=0, S=0 and O=0 and TLLA
 
     Verify that a host takes appropriate actions when a neighbor who is a
     router starts transmitting Neighbor Advertisements with the Router flag
@@ -171,7 +171,7 @@ class FlagsSet0x000TLLTestCase(RbitChangeHelper):
 
 class FlagsSet0x001TLLTestCase(RbitChangeHelper):
     """
-    Neighbor Advertisement Processing, R-bit Change
+    Neighbor Advertisement Processing, R-bit Change - with R=0, S=0 and O=1 and TLLA
 
     Verify that a host takes appropriate actions when a neighbor who is a
     router starts transmitting Neighbor Advertisements with the Router flag
@@ -190,7 +190,7 @@ class FlagsSet0x001TLLTestCase(RbitChangeHelper):
 
 class FlagsSet0x010TLLTestCase(RbitChangeHelper):
     """
-    Neighbor Advertisement Processing, R-bit Change
+    Neighbor Advertisement Processing, R-bit Change - with R=0, S=1 and O=0 and TLLA
 
     Verify that a host takes appropriate actions when a neighbor who is a
     router starts transmitting Neighbor Advertisements with the Router flag
