@@ -54,7 +54,8 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
         r1 = self.node(1).received(src=self.dst, seq=self.seq(), type=ICMPv6EchoReply)
         assertEqual(1, len(r1), "expected to receive an ICMPv6 Echo Reply from the NUT, got %d" % (len(r1)))
              
-        # Step 3 # Wait for the NUT's NCE for TN1 to become STALE ##############
+        # Step 3 ###############################################################
+        self.logger.info("Waiting for the NUT's NCE for TN1 to bcome STALE")
         self.ui.wait(int(math.ceil(MAX_RANDOM_FACTOR * self.reachable_time_seconds())))
 
         self.node(1).clear_received()
@@ -69,7 +70,8 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
         r1 = self.node(1).received(src=self.dst, seq=self.seq(), type=ICMPv6EchoReply)
         assertEqual(1, len(r1), "expected to receive an ICMPv6 Echo Reply from the NUT, got %d" % (len(r1)))
         
-        # Step 6 # Wait for the NUT's NCE for TN1 to become PROBE ##############
+        # Step 6 ###############################################################
+        self.logger.info("Wait for the NUT's NCE for TN1 to become PROBE 2")
         self.ui.wait(DELAY_FIRST_PROBE_TIME)
 
         self.node(1).clear_received()
