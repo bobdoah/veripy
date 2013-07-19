@@ -48,7 +48,7 @@ class RbitChangeHelper(ComplianceTestCase):
         self.logger.info("Sending Neighbor Advertisement from TR1, with R-bit clear...")
         self.router(1).send(self.p, iface=1)
 
-        self.node(1).clear_received()
+        self.node(2).clear_received()
         self.logger.info("Sending another ICMPv6 Echo Request from TN2...")
         self.node(2).send(
             IPv6(src=str(self.node(2).global_ip()), dst=str(self.target(1).global_ip()))/
