@@ -15,7 +15,7 @@ class TransmissionOfAdvertisementWithNoAddrsAvailableTestCase(DHCPv6Helper):
     """
 
     def run(self):
-        self.restart_interface_confirm()
+        assertTrue(self.restart_interface_confirm())
 
         self.logger.info("Checking for a DHCPv6 Solicit message...")
         r1 = self.node(1).received(src=str(self.target(1).link_local_ip()), dst=AllDHCPv6RelayAgentsAndServers, type=DHCP6_Solicit)
