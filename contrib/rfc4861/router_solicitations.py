@@ -18,7 +18,7 @@ class RouterSolicitationsTestCase(ComplianceTestCase):
     disabled_ra = True
 
     def run(self):
-        self.ui.ask("Please restart the UUT's interface, and then press Y.")
+        self.restart_interface_async()
 
         self.ui.wait(30)
         self.logger.info("Waiting for a Router Solicitation...")

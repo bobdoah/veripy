@@ -92,7 +92,7 @@ class PrefixOptionsTestHelper(SlaacTestHelper):
 
     """
     def run(self):
-        self.ui.ask("Please re-initialize the interface being tested then press y to continue.")
+        self.restart_interface_async()
 
         self.logger.info("Send Test RA")
         self.router(1).send(self.test_ra, iface=1)
@@ -268,7 +268,7 @@ class PrefixInformationOptionProcessingValidLifetime0xffffffffTestCase(PrefixOpt
         self.test_ra = p
 
     def run(self):
-        self.ui.ask("Please re-initialize the interface being tested then press y to continue.")
+        self.restart_interface_async()
 
         self.logger.info("Send Test RA")
         self.router(1).send(self.test_ra, iface=1)

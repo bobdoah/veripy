@@ -35,7 +35,7 @@ class UUTSendsNSFromUnspecifiedWithTimeStampTestCase(SendHelper):
     source rfc 3971 5.3.3
     """
     def run(self):
-        self.ui.ask("Please press Y and then restart the interface being tested or restart the UUT. After pressing Y you will have 5 minutes to restart the interface or UUT.")
+        self.restart_interface_async()
         ns_packet = self.node(1).received(dst=self.target(1).link_local_ip().solicited_node(), src="::",  type=ICMPv6ND_NS, timeout = 300)
 
         assertGreaterThanOrEqualTo(1, len(ns_packet), "Expect one NS to be sent" )
@@ -77,7 +77,7 @@ class UUTSendsRSFromLinkLocalWithTimeStampTestCase(SendHelper):
     source rfc 3971 5.3.3
     """
     def run(self):
-        self.ui.ask("Please press Y and then restart the interface being tested or restart the UUT. After pressing Y you will have 5 minutes to restart the interface or UUT.")
+        self.restart_interface_async()
         rs_packets = self.node(1).received(dst="ff02::02", src=self.target(1).link_local_ip(),  type=ICMPv6ND_RS, timeout = 300)
 
         assertGreaterThanOrEqualTo(1, len(rs_packets), "Expect one RS to be sent" )

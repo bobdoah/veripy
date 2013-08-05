@@ -16,7 +16,7 @@ class AddressLifetimeExpiryTestCase(SlaacTestHelper):
     RFC4862 5.4
     """
     def run(self):
-        self.ui.ask("Please re-initialize the interface being tested then press y to continue.")
+        self.restart_interface_async()
         self.node(1).clear_received()
 
         # Send RA

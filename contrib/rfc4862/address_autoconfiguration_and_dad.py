@@ -14,7 +14,7 @@ class AddressAutoConfigurationAndDadTestCase(SlaacTestHelper):
     """
     def run(self):
         if self.ui.ask("Is duplicate address detection configured on the device?"):
-            self.ui.ask("Please press Y and then restart the interface being tested or restart the UUT. After pressing Y you will have 5 minutes to restart the interface or UUT.")
+            self.restart_interface_async()
 
         # Result 2
         ns_packets = self.wait_for_neighbor_solicitation()

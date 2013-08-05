@@ -47,7 +47,7 @@ class UutReceivesPacketDuringDadAndContinuesTestHelper(SlaacTestHelper):
     def run(self):
         if self.ui.ask("Is duplicate address detection configured on the device?"):
 # Initialize the Interface
-            self.ui.ask("Please press Y and then restart the interface being tested or UUT. After pressing Y you will have 5 minutes to restart the interface or UUT.")
+            self.restart_interface_async()
 
 # Wait for NS to get sent out then send invalid
             ns_packets = self.wait_for_neighbor_solicitation()
@@ -103,7 +103,7 @@ class HostUutReceivesPacketDuringDadAndStopsTestHelper(SlaacTestHelper):
     def run(self):
         if self.ui.ask("Is duplicate address detection configured on the device?"):
 # Initialize the Interface
-            self.ui.ask("Please press Y and then restart the interface being tested or UUT. After pressing Y you will have 5 minutes to restart the interface or UUT.")
+            self.restart_interface_async()
 
 # Wait for NS to get sent out then send invalid
             ns_packets = self.wait_for_neighbor_solicitation()
@@ -180,8 +180,7 @@ class RouterUutReceivesPacketDuringDadAndStopsTestHelper(SlaacTestHelper):
     def run(self):
         if self.ui.ask("Is duplicate address detection configured on the device?"):
 # Initialize the Interface
-            self.ui.ask("Please press Y and then restart the interface being tested or UUT. After pressing Y you will have 5 minutes to restart the interface or UUT.")
-
+            self.restart_interface_async()
 # Wait for NS to get sent out then send invalid
             ns_packets = self.wait_for_neighbor_solicitation()
             assertGreaterThan(0, len(ns_packets), "expected ICMPv6 Neighbor Solicitation to be sent.")

@@ -13,7 +13,7 @@ class ValidRouterSolicitationHelper(ComplianceTestCase):
         raise Exception("override #set_up to define #p")
 
     def run(self):
-        self.ui.ask("Please restart the UUT's interface, and then press Y.")
+        self.restart_interface_async()
 
         self.logger.info("Waiting for a Router Solicitation...")
         r1 = self.router(1).received(iface=1, dst="ff02::2", type=ICMPv6ND_RS, timeout=30)
@@ -38,7 +38,7 @@ class InvalidRouterSolicitationHelper(ComplianceTestCase):
         raise Exception("override #set_up to define #p")
 
     def run(self):
-        self.ui.ask("Please restart the UUT's interface, and then press Y.")
+        self.restart_interface_async()
 
         self.logger.info("Waiting for a Router Solicitation...")
         r1 = self.router(1).received(iface=1, dst="ff02::2", type=ICMPv6ND_RS, timeout=30)

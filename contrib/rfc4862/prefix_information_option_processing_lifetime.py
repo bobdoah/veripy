@@ -26,7 +26,7 @@ class PrefixInformationOptionProcessingLifetimePrefixLifetimeGreaterRemainingLif
 
     """
     def run(self):
-        self.ui.ask("Please re-initialize the interface being tested then press y to continue.")
+        self.restart_interface_async()
         # Step 1 RA 
         self.logger.info("Send RA")
         ra = self.router_advertisement_a()
@@ -65,7 +65,7 @@ class PrefixInformationOptionProcessingLifetimePrefixLifetimeGreaterThan2HoursTe
 
     """
     def run(self):
-        self.ui.ask("Please re-initialize the interface being tested then press y to continue.")
+        self.restart_interface_async()
         # Step 7 RA
         self.logger.info("Send RA")
         ra = self.router_advertisement_a()
@@ -105,7 +105,7 @@ class PrefixInformationOptionProcessingLifetimePrefixLifetimeLessThanRemainingGr
 
     """
     def run(self):
-        self.ui.ask("Please re-initialize the interface being tested then press y to continue.")
+        self.restart_interface_async()
         # Step 12
         self.logger.info("Send RA")
         ra = self.router_advertisement_a()
@@ -144,7 +144,7 @@ class PrefixInformationOptionProcessingLifetimePrefixLifetimeLessThan2hoursRemai
 
     """
     def run(self):
-        self.ui.ask("Please re-initialize the interface being tested then press y to continue.")
+        self.restart_interface_async()
         # Step 12
         self.logger.info("Send RA")
         ra = self.router_advertisement_a()

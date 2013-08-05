@@ -165,12 +165,22 @@ class ComplianceTestCase(object):
         self.__logging_handler.setFormatter(Formatter('%(asctime)s %(levelname)s %(message)s'))
         self.logger.addHandler(self.__logging_handler)
     
+    def restart_unit_under_test(self):
+        self.ui.tell("You need to restart the network interfaces on the UUT before this test case can proceed.")
+        self.ui.read("Please press enter once the UUT interfaces are ready.")
+
+    def restart_interface_confirm(self):
+        self.ui.tell("Please restart the UUT's network interface.")
+        return self.ui.ask("Has the interface restarted?")
+
+    def restart_interface_async(self):
+        return self.ui.ask("Please restart the UUT's interface, and then press Y.")
+
     def __set_up_framework(self, o):
         AssertionCounter.reset()
 
         if self.__class__.restart_uut:
-            self.ui.tell("You need to restart the network interfaces on the UUT before this test case can proceed.")
-            self.ui.read("Please press enter once the UUT interfaces are ready.")
+            self.restart_unit_under_test()
 
         for node in self.nodes():
             node.clear_received()

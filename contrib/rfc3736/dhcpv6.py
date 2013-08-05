@@ -148,8 +148,7 @@ class DHCPv6Helper(ComplianceTestCase):
         return (self.ip_from(p), p)
     
     def do_dhcpv6_handshake_as_server(self, server, client, wait=True, T1=300, T2=300):
-        self.ui.tell("Please restart the UUT's network interface.")
-        assertTrue(self.ui.ask("Has the interface restarted?"))
+        assertTrue(self.restart_interface_confirm())
 
         self.logger.info("Checking for a DHCPv6 Solicit message...")
         r1 = server.received(src=str(client.link_local_ip()), dst=AllDHCPv6RelayAgentsAndServers, type=DHCP6_Solicit)
