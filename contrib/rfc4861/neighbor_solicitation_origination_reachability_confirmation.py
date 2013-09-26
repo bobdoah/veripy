@@ -4,7 +4,7 @@ from scapy.all import *
 from veripy.assertions import *
 from veripy.models import ComplianceTestCase
 
-class ReachabilityConfigurationHelper(ComplianceTestCase):
+class ReachabilityConfirmationHelper(ComplianceTestCase):
 
     disabled_nd = True
     disabled_ra = True
@@ -96,9 +96,9 @@ class ReachabilityConfigurationHelper(ComplianceTestCase):
             assertLessThanOrEqualTo(1.2, delta, "expected retransmit interval to be between %.2f and %.2f seconds, %.2f" % (0.8, 1.2, delta))
 
 
-class LinkLocalToLinkLocalTestCase(ReachabilityConfigurationHelper):
+class LinkLocalToLinkLocalTestCase(ReachabilityConfirmationHelper):
     """
-    Neighbor Solicitation Origination Reachability Configuration - Link-local
+    Neighbor Solicitation Origination Reachability Confirmation - Link-local
     to Link-local
 
     Verify that a node properly originates Neighbor Solicitations when trying
@@ -114,9 +114,9 @@ class LinkLocalToLinkLocalTestCase(ReachabilityConfigurationHelper):
         self.dst = self.target(1).link_local_ip()
         
 
-class GlobalToGlobalTestCase(ReachabilityConfigurationHelper):
+class GlobalToGlobalTestCase(ReachabilityConfirmationHelper):
     """
-    Neighbor Solicitation Origination Reachability Configuration - Global
+    Neighbor Solicitation Origination Reachability Confirmation - Global
     to Global
 
     Verify that a node properly originates Neighbor Solicitations when trying
@@ -132,9 +132,9 @@ class GlobalToGlobalTestCase(ReachabilityConfigurationHelper):
         self.dst = self.target(1).global_ip()
         
                 
-class LinkLocalToGlobalTestCase(ReachabilityConfigurationHelper):
+class LinkLocalToGlobalTestCase(ReachabilityConfirmationHelper):
     """
-    Neighbor Solicitation Origination Reachability Configuration - Link-local
+    Neighbor Solicitation Origination Reachability Confirmation - Link-local
     to Global
 
     Verify that a node properly originates Neighbor Solicitations when trying
@@ -150,9 +150,9 @@ class LinkLocalToGlobalTestCase(ReachabilityConfigurationHelper):
         self.dst = self.target(1).global_ip()
         
                 
-class GlobalToLinkLocalTestCase(ReachabilityConfigurationHelper):
+class GlobalToLinkLocalTestCase(ReachabilityConfirmationHelper):
     """
-    Neighbor Solicitation Origination Reachability Configuration - Global
+    Neighbor Solicitation Origination Reachability Confirmation - Global
     to Link-local
 
     Verify that a node properly originates Neighbor Solicitations when trying
