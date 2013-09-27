@@ -32,7 +32,7 @@ class RouterAdvertisementValidityHelper(ComplianceTestCase):
 
 class GlobalSourceAddressTestCase(RouterAdvertisementValidityHelper):
     """
-    Router Advertisement Processing, Validity -
+    Router Advertisement Processing, Validity - Global Source Address
 
     Verify that a host properly discards an invalid Router Advertisement.
 
@@ -49,7 +49,7 @@ class GlobalSourceAddressTestCase(RouterAdvertisementValidityHelper):
 
 class BadHopLimitTestCase(RouterAdvertisementValidityHelper):
     """
-    Router Advertisement Processing, Validity - 
+    Router Advertisement Processing, Validity - Hop Limit less than 255
 
     Verify that a host properly discards an invalid Router Advertisement.
 
@@ -66,7 +66,7 @@ class BadHopLimitTestCase(RouterAdvertisementValidityHelper):
 
 class BadICMPChecksumTestCase(RouterAdvertisementValidityHelper):
     """
-    Router Advertisement Processing, Validity - 
+    Router Advertisement Processing, Validity - Invalid Checksum
 
     Verify that a host properly discards an invalid Router Advertisement.
 
@@ -83,7 +83,7 @@ class BadICMPChecksumTestCase(RouterAdvertisementValidityHelper):
 
 class BadICMPCodeTestCase(RouterAdvertisementValidityHelper):
     """
-    Router Advertisement Processing, Validity - 
+    Router Advertisement Processing, Validity - Invalid ICMP Code
 
     Verify that a host properly discards an invalid Router Advertisement.
 
@@ -100,7 +100,7 @@ class BadICMPCodeTestCase(RouterAdvertisementValidityHelper):
 
 class BadICMPLengthTestCase(RouterAdvertisementValidityHelper):
     """
-    Router Advertisement Processing, Validity - 
+    Router Advertisement Processing, Validity - Invalid ICMP Length
 
     Verify that a host properly discards an invalid Router Advertisement.
 
@@ -117,7 +117,7 @@ class BadICMPLengthTestCase(RouterAdvertisementValidityHelper):
 
 class BadOptionLengthTestCase(RouterAdvertisementValidityHelper):
     """
-    Router Advertisement Processing, Validity -
+    Router Advertisement Processing, Validity - Option of Length 0
 
     Verify that a host properly discards an invalid Router Advertisement.
 
