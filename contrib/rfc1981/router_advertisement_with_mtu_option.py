@@ -32,7 +32,7 @@ class RouterAdvertisementWithMTUOptionTestCase(ComplianceTestCase):
         
         self.logger.info("Sending Router Advertisement from TR1, with the MTU option set to 1280")
         self.router(1).send(
-            IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst="ff01::2")/
+            IPv6(src=str(self.router(1).link_local_ip(iface=1)), dst="ff02::1")/
                 ICMPv6ND_RA()/
                     ICMPv6NDOptMTU(mtu=1280), iface=1)
 
