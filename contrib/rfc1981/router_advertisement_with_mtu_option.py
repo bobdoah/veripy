@@ -37,7 +37,7 @@ class RouterAdvertisementWithMTUOptionTestCase(ComplianceTestCase):
                     ICMPv6NDOptMTU(mtu=1280), iface=1)
 
         self.logger.info("Forwarding another ICMPv6 echo request from TN2 to NUT...")
-        for f in fragment6(util.pad(IPv6(src=str(self.node(2).global_ip()), dst=str(self.target(1).global_ip()))/ICMPv6EchoRequest(seq=self.next_seq()), 1500, True), 1280):
+        for f in fragment6(util.pad(IPv6(src=str(self.node(2).global_ip()), dst=str(self.target(1).global_ip()))/IPv6ExtHdrFragment()/ICMPv6EchoRequest(seq=self.next_seq()), 1500, True), 1280):
             self.node(2).send(f)
 
         self.ui.wait(5)
