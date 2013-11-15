@@ -24,8 +24,8 @@ class ReceivingMTUBelowIPv6MinimumHelper(ComplianceTestCase):
         self.logger.info("Sending Packet Too Big message to NUT for Echo Reply with MTU set to %d" % (self.mtu))
         self.router(1).send(
             IPv6(src=str(self.router(1).global_ip(iface=1)), dst=str(self.target(1).global_ip()))/
-                ICMPv6PacketTooBig(mtu=56)/
-                    Raw(load=r1[0].build()[:(56-48)]), iface=1)
+                ICMPv6PacketTooBig(mtu=self.mtu)/
+                    Raw(load=r1[0].build()[:(1280-48)]), iface=1)
 
         self.node(2).clear_received()
         self.logger.info("Forwarding another ICMPv6 echo request from TN2 to NUT...")
